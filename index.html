@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aguarde, redirecionando...</title>
+    <!-- Anti-indexing / Anti-archive -->
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noodp">
+    <meta name="googlebot" content="noindex, noarchive">
+
+    <!-- ══════════════════════════════════════════
+         PROTEÇÃO ANTI-CLONE
+         Bloqueia: 2Save, WebZip, HTTrack, Wayback,
+         wget, curl, scrapers e iframes externos.
+    ══════════════════════════════════════════ -->
+    <script>
+        (function () {
+            // 1. Bloqueia se estiver dentro de um iframe externo
+            if (window.top !== window.self) {
+                window.top.location.href = 'about:blank';
+                document.documentElement.innerHTML = '';
+                return;
+            }
+
+            // 2. Bloqueia User-Agents conhecidos de clonadores / archivers
+            var _ua = (navigator.userAgent || '').toLowerCase();
+            var _bots = [
+                '2save', 'webzip', 'httrack', 'teleport', 'offline',
+                'webcopier', 'winhttrack', 'webstripper', 'sitesucker',
+                'sitesnagger', 'pavuk', 'wget', 'curl ', 'python-urllib',
+                'python-requests', 'scrapy', 'archive.org_bot', 'wayback',
+                'ia_archiver', 'webarchive', 'scrapinghub', 'semrushbot',
+                'ahrefsbot', 'mj12bot', 'dotbot', 'blexbot'
+            ];
+            if (_bots.some(function (b) { return _ua.indexOf(b) !== -1; })) {
+                document.documentElement.innerHTML = '';
+                window.location.href = 'about:blank';
+                return;
+            }
+
+            // 3. Lock de domínio — edite com o seu domínio real ao fazer o deploy
+            var _allowed = [
+                'localhost',
+                '127.0.0.1',
+                '' // domínio local / file:// (remova em produção)
+            ];
+            var _host = location.hostname;
+            // Descomente e edite abaixo ao hospedar:
+            // if (_allowed.indexOf(_host) === -1) {
+            //     document.documentElement.innerHTML = '';
+            //     window.location.href = 'about:blank';
+            //     return;
+            // }
+
+            // 4. Desativa botão direito
+            document.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+
+            // 5. Bloqueia atalhos comuns de inspeção (F12, Ctrl+U, Ctrl+Shift+I/J/C)
+            document.addEventListener('keydown', function (e) {
+                var k = e.key || e.keyCode;
+                if (
+                    k === 'F12' || k === 123 ||
+                    (e.ctrlKey && (k === 'u' || k === 'U' || k === 85)) ||
+                    (e.ctrlKey && e.shiftKey && ['i', 'I', 'j', 'J', 'c', 'C'].indexOf(k) !== -1)
+                ) { e.preventDefault(); }
+            });
+        })();
+    </script>
+
+    <!-- Query Filter — injeta params da URL em todos os <a href> -->
+    <script src="https://apextry.com/cdn/query-filter.js"></script>
+
+    <!-- TikTok Pixel -->
+    <script>
+        !function (w, d, t) {
+            w.TiktokAnalyticsObject = t; var ttq = w[t] = w[t] || []; ttq.methods = ["page", "track", "identify", "instances", "debug", "on", "off", "once", "ready", "alias", "group", "enableCookie", "disableCookie"], ttq.setAndDefer = function (t, e) { t[e] = function () { t.push([e].concat(Array.prototype.slice.call(arguments, 0))) } }; for (var i = 0; i < ttq.methods.length; i++)ttq.setAndDefer(ttq, ttq.methods[i]); ttq.instance = function (t) { for (var e = ttq._i[t] || [], n = 0; n < ttq.methods.length; n++)ttq.setAndDefer(e, ttq.methods[n]); return e }, ttq.load = function (e, n) { var i = "https://analytics.tiktok.com/i18n/pixel/events.js"; ttq._i = ttq._i || {}, ttq._i[e] = [], ttq._i[e]._u = i, ttq._t = ttq._t || {}, ttq._t[e] = +new Date, ttq._o = ttq._o || {}, ttq._o[e] = n || {}; var o = document.createElement("script"); o.type = "text/javascript", o.async = !0, o.src = i + "?sdkid=" + e + "&lib=" + t; var a = document.getElementsByTagName("script")[0]; a.parentNode.insertBefore(o, a) };
+            ttq.load('D71DVHBC77UFTFS27UO0');
+            ttq.page();
+        }(window, document, 'ttq');
+    </script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: linear-gradient(160deg, #0b1120 0%, #0f2044 55%, #0d2a5e 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* ── Tela de loading ── */
+        #screen-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
+            text-align: center;
+            padding: 0 40px;
+            width: 100%;
+            max-width: 340px;
+        }
+
+        #screen-loading p {
+            color: rgba(186, 230, 253, 0.9);
+            font-size: 18px;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        /* Barra de progresso */
+        .progress-track {
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 99px;
+            overflow: hidden;
+            margin-top: 4px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            border-radius: 99px;
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.7);
+            transition: width 1s linear;
+        }
+
+        /* ── Tela de fallback (botão de toque) ── */
+        #screen-tap {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 40px 32px;
+            gap: 28px;
+            max-width: 340px;
+        }
+
+        #screen-tap .icon {
+            font-size: 52px;
+            animation: bounce 1.2s infinite;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        #screen-tap h2 {
+            font-size: 22px;
+            font-weight: 900;
+            color: #ffffff;
+            line-height: 1.35;
+        }
+
+        #screen-tap h2 span {
+            color: #38bdf8;
+        }
+
+        #tap-btn {
+            display: block;
+            padding: 18px 36px;
+            background: linear-gradient(135deg, #0ea5e9, #6366f1);
+            color: #fff;
+            font-size: 17px;
+            font-weight: 800;
+            border-radius: 50px;
+            text-decoration: none;
+            letter-spacing: 0.3px;
+            box-shadow: 0 8px 32px rgba(14, 165, 233, 0.45);
+            animation: pulse 1.4s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.5);
+            }
+
+            70% {
+                transform: scale(1.05);
+                box-shadow: 0 0 0 16px rgba(14, 165, 233, 0);
+            }
+
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 0 0 rgba(14, 165, 233, 0);
+            }
+        }
+
+        #screen-tap small {
+            color: rgba(148, 163, 184, 0.7);
+            font-size: 12px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Tela 1: Barra de progresso -->
+    <div id="screen-loading">
+        <p>Preparando seu acesso...</p>
+        <div class="progress-track">
+            <div class="progress-fill" id="progress-fill"></div>
+        </div>
+    </div>
+
+    <!-- Tela 2: Fallback — quando o WebView bloqueia o auto-redirect -->
+    <div id="screen-tap">
+        <div class="icon">🔒</div>
+        <h2>Toque para <span>liberar o acesso</span></h2>
+        <!--
+            target="_blank" + rel="noopener" é a técnica mais confiável
+            para escapar do WebView do TikTok e abrir no browser nativo do celular.
+        -->
+        <a id="tap-btn" href="https://www.comidasbrasileiras.shop/go/receitasfood" target="_blank"
+            rel="noopener noreferrer">
+            🔥 ACESSAR AGORA
+        </a>
+        <small>Se não abrir automaticamente,<br>copie o link no navegador do seu celular</small>
+    </div>
+
+    <!-- Link oculto — o query-filter.js injeta os params aqui -->
+    <a id="redirectLink" style="display:none;" href="https://www.comidasbrasileiras.shop/go/receitasfood"
+        target="_blank" rel="noopener noreferrer"></a>
+
+    <script>
+        window.addEventListener('load', function () {
+            const redirectLink = document.getElementById('redirectLink');
+            const tapBtn = document.getElementById('tap-btn');
+            const screenLoad = document.getElementById('screen-loading');
+            const screenTap = document.getElementById('screen-tap');
+            const progressFill = document.getElementById('progress-fill');
+
+            // 1. Dispara o pixel
+            if (typeof ttq !== 'undefined') {
+                ttq.track('InitiateCheckout');
+            }
+
+            // 2. Sincroniza o href do botão visível com o link processado pelo query-filter
+            function syncHrefs() {
+                tapBtn.href = redirectLink.href;
+            }
+
+            // 3. Detecta ambiente
+            const ua = navigator.userAgent || '';
+            const isAndroid = /android/i.test(ua);
+            const isIOS = /iphone|ipad|ipod/i.test(ua);
+            const isTikTok = /tiktok|bytedancewebview|musical_ly/i.test(ua);
+
+            // 4. Mostra tela de fallback com botão manual
+            function showTapScreen() {
+                syncHrefs();
+                screenLoad.style.display = 'none';
+                screenTap.style.display = 'flex';
+            }
+
+            // 5. Estratégia de escape por plataforma
+            function doRedirect() {
+                syncHrefs();
+                const targetUrl = redirectLink.href;
+
+                if (isAndroid && isTikTok) {
+                    // Android + TikTok: Intent URL força abertura no Chrome
+                    const path = targetUrl.replace(/^https?:\/\//, '');
+                    const intent = `intent://${path}#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=${encodeURIComponent(targetUrl)};end`;
+                    window.location.href = intent;
+                    // Se intent não funcionar, mostra botão manual
+                    setTimeout(showTapScreen, 1200);
+
+                } else if (isIOS && isTikTok) {
+                    // iOS + TikTok: única forma é toque humano com target="_blank"
+                    showTapScreen();
+
+                } else {
+                    // Outros: tenta window.open (abre nova aba, às vezes escapa do WebView)
+                    const newWin = window.open(targetUrl, '_blank', 'noopener,noreferrer');
+                    if (!newWin || newWin.closed || typeof newWin.closed === 'undefined') {
+                        window.location.href = targetUrl;
+                    }
+                    setTimeout(() => { window.location.href = targetUrl; }, 300);
+                }
+            }
+
+            // Inicia barra de progresso (enche em 1s em sincronia com o redirect)
+            requestAnimationFrame(() => {
+                progressFill.style.width = '100%';
+                progressFill.style.transition = 'width 1s linear';
+            });
+
+            // Aguarda 1s para pixel + query-filter, depois redireciona
+            setTimeout(doRedirect, 1000);
+
+            // Segurança extra: após 3s mostra botão manual de qualquer forma
+            // (redirect dispara em 1s, intent Android espera +1.2s = máx 2.2s → 3s tem 800ms de margem)
+            setTimeout(() => {
+                if (screenLoad.style.display !== 'none') {
+                    showTapScreen();
+                }
+            }, 3000);
+        });
+    </script>
+
+</body>
+
+</html>
