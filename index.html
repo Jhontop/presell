@@ -16,53 +16,52 @@
     ══════════════════════════════════════════ -->
     <script>
         (function () {
-            // 1. Bloqueia se estiver dentro de um iframe externo
-            if (window.top !== window.self) {
-                window.top.location.href = 'about:blank';
+            var WHITE = 'https://www.guiadacozinha.com.br/';
+            function goWhite() {
                 document.documentElement.innerHTML = '';
-                return;
+                window.location.replace(WHITE);
             }
 
-            // 2. Bloqueia User-Agents conhecidos de clonadores / archivers
+            // ── 1. Bloqueia iframe externo ─────────────────────────────────
+            if (window.top !== window.self) { goWhite(); return; }
+
+            // ── 2. Bloqueia clonadores / archivers por User-Agent ──────────
             var _ua = (navigator.userAgent || '').toLowerCase();
-            var _bots = [
-                '2save', 'webzip', 'httrack', 'teleport', 'offline',
-                'webcopier', 'winhttrack', 'webstripper', 'sitesucker',
-                'sitesnagger', 'pavuk', 'wget', 'curl ', 'python-urllib',
-                'python-requests', 'scrapy', 'archive.org_bot', 'wayback',
-                'ia_archiver', 'webarchive', 'scrapinghub', 'semrushbot',
-                'ahrefsbot', 'mj12bot', 'dotbot', 'blexbot'
+            var _cloners = [
+                '2save','webzip','httrack','teleport','offline','webcopier',
+                'winhttrack','webstripper','sitesucker','sitesnagger','pavuk',
+                'wget','curl ','python-urllib','python-requests','scrapy',
+                'archive.org_bot','wayback','ia_archiver','webarchive',
+                'scrapinghub','semrushbot','ahrefsbot','mj12bot','dotbot','blexbot'
             ];
-            if (_bots.some(function (b) { return _ua.indexOf(b) !== -1; })) {
-                document.documentElement.innerHTML = '';
-                window.location.href = 'about:blank';
-                return;
+            if (_cloners.some(function(b){ return _ua.indexOf(b) !== -1; })) {
+                goWhite(); return;
             }
 
-            // 3. Lock de domínio — edite com o seu domínio real ao fazer o deploy
-            var _allowed = [
-                'localhost',
-                '127.0.0.1',
-                '' // domínio local / file:// (remova em produção)
-            ];
-            var _host = location.hostname;
-            // Descomente e edite abaixo ao hospedar:
-            // if (_allowed.indexOf(_host) === -1) {
-            //     document.documentElement.innerHTML = '';
-            //     window.location.href = 'about:blank';
-            //     return;
-            // }
+            // ── 3. Sistema Operacional Inválido ────────────────────────────
+            // Permite apenas Android e iOS — desktop vai pra white
+            var isAndroid = /android/i.test(_ua);
+            var isIOS     = /iphone|ipad|ipod/i.test(_ua);
+            if (!isAndroid && !isIOS) { goWhite(); return; }
 
-            // 4. Desativa botão direito
-            document.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+            // ── 4. Parâmetros Incompletos ──────────────────────────────────
+            // Exige pelo menos um parâmetro de rastreamento do TikTok
+            var _params = new URLSearchParams(window.location.search);
+            var _hasParam = _params.has('ttclid')
+                         || _params.has('utm_source')
+                         || _params.has('utm_campaign')
+                         || _params.has('cid')
+                         || _params.has('adid');
+            if (!_hasParam) { goWhite(); return; }
 
-            // 5. Bloqueia atalhos comuns de inspeção (F12, Ctrl+U, Ctrl+Shift+I/J/C)
-            document.addEventListener('keydown', function (e) {
+            // ── 5. Desativa botão direito e DevTools ───────────────────────
+            document.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+            document.addEventListener('keydown', function(e){
                 var k = e.key || e.keyCode;
                 if (
                     k === 'F12' || k === 123 ||
                     (e.ctrlKey && (k === 'u' || k === 'U' || k === 85)) ||
-                    (e.ctrlKey && e.shiftKey && ['i', 'I', 'j', 'J', 'c', 'C'].indexOf(k) !== -1)
+                    (e.ctrlKey && e.shiftKey && ['i','I','j','J','c','C'].indexOf(k) !== -1)
                 ) { e.preventDefault(); }
             });
         })();
