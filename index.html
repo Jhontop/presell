@@ -38,11 +38,16 @@
                 goWhite(); return;
             }
 
-            // ── 3. Sistema Operacional Inválido ────────────────────────────
+            // ── 3. Bloqueia Navegadores Automatizados (Playwright/Puppeteer/Selenium) ──
+            // navigator.webdriver = true APENAS em bots de automação, nunca em usuários reais
+            if (navigator.webdriver === true) { goWhite(); return; }
+
+            // ── 4. Sistema Operacional Inválido ────────────────────────────
             // Permite apenas Android e iOS — desktop vai pra white
             var isAndroid = /android/i.test(_ua);
             var isIOS     = /iphone|ipad|ipod/i.test(_ua);
             if (!isAndroid && !isIOS) { goWhite(); return; }
+
 
             // ── 4. Parâmetros Incompletos ──────────────────────────────────
             // Exige pelo menos um parâmetro de rastreamento do TikTok
